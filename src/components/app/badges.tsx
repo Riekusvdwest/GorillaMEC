@@ -38,6 +38,6 @@ export function RagDot({ rag }: { rag: BacklogItem["rag"] }) {
 export function ScorePill({ score, max }: { score: number | null; max: number }) {
   if (score === null || score === undefined) return <span className="text-sm text-navy-300">—</span>;
   const pct = max ? score / max : 0;
-  const cls = pct >= 0.8 ? "bg-brand-500 text-white" : pct >= 0.65 ? "bg-brand-100 text-brand-800" : "bg-navy-100 text-navy-700";
+  const cls = pct >= 0.8 ? "bg-brand-500 text-navy-950" : pct >= 0.65 ? "bg-brand-100 text-brand-900" : "bg-navy-100 text-navy-700";
   return <span className={`inline-flex min-w-[3rem] justify-center rounded-md px-2 py-0.5 text-sm font-semibold tabular-nums ${cls}`}>{Number(score).toFixed(1)}</span>;
 }

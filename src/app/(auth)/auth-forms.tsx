@@ -25,12 +25,12 @@ export function LoginForm({ next, notice }: { next?: string; notice?: string }) 
         <Input name="password" type="password" required autoComplete="current-password" />
       </Field>
       <div className="flex justify-end">
-        <Link href="/forgot-password" className="text-sm text-brand-600 hover:underline">Forgot password?</Link>
+        <Link href="/forgot-password" className="text-sm text-brand-700 hover:underline">Forgot password?</Link>
       </div>
       <Alert state={state} />
       <SubmitButton className="w-full" size="lg" pendingText="Signing in…">Log in</SubmitButton>
       <p className="text-center text-sm text-[var(--muted)]">
-        New here? <Link href="/signup" className="font-medium text-brand-600 hover:underline">Start a free trial</Link>
+        New here? <Link href="/signup" className="font-medium text-brand-700 hover:underline">Start a free trial</Link>
       </p>
     </form>
   );
@@ -63,14 +63,14 @@ export function SignupForm({ plan, next }: { plan?: string; next?: string }) {
       <label className="flex items-start gap-2 text-sm text-navy-700">
         <input type="checkbox" name="terms" required className="mt-0.5 h-4 w-4 accent-brand-500" />
         <span>
-          I agree to the <Link href="/legal/terms" className="text-brand-600 hover:underline">terms</Link> and{" "}
-          <Link href="/legal/privacy" className="text-brand-600 hover:underline">privacy policy</Link>.
+          I agree to the <Link href="/legal/terms" className="text-brand-700 hover:underline">terms</Link> and{" "}
+          <Link href="/legal/privacy" className="text-brand-700 hover:underline">privacy policy</Link>.
         </span>
       </label>
       <Alert state={state} />
       <SubmitButton className="w-full" size="lg" pendingText="Creating your account…">Create account</SubmitButton>
       <p className="text-center text-sm text-[var(--muted)]">
-        Already have an account? <Link href={next ? `/login?next=${encodeURIComponent(next)}` : "/login"} className="font-medium text-brand-600 hover:underline">Log in</Link>
+        Already have an account? <Link href={next ? `/login?next=${encodeURIComponent(next)}` : "/login"} className="font-medium text-brand-700 hover:underline">Log in</Link>
       </p>
     </form>
   );

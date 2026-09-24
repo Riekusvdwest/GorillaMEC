@@ -109,7 +109,7 @@ export default async function PortfolioPage({ searchParams }: PageProps<"/app/po
                     <tr key={b.id} className="hover:bg-navy-50/40">
                       <td className="px-4 py-3 font-display text-base font-semibold tabular-nums text-navy-300">{rank.get(b.id) ?? "–"}</td>
                       <td className="px-3 py-3">
-                        <Link href={`/app/portfolio/${b.id}`} className="flex items-center gap-2 font-medium text-navy-950 hover:text-brand-700">
+                        <Link href={`/app/portfolio/${b.id}`} className="flex items-center gap-2 font-medium text-navy-950 hover:text-brand-800">
                           <RagDot rag={b.rag} />
                           <span className="text-[var(--muted)]">{backlogId(b.number)}</span>
                           <span className="truncate">{b.title}</span>

@@ -30,7 +30,7 @@ function AgendaSection({ title, list, empty, maxScore }: { title: string; list: 
           {list.map((b) => (
             <li key={b.id} className="flex items-center gap-2 text-sm">
               <ScorePill score={b.score} max={maxScore} />
-              <Link href={`/app/portfolio/${b.id}`} className="min-w-0 flex-1 truncate text-navy-900 hover:text-brand-700">
+              <Link href={`/app/portfolio/${b.id}`} className="min-w-0 flex-1 truncate text-navy-900 hover:text-brand-800">
                 <span className="text-[var(--muted)]">{backlogId(b.number)}</span> {b.title}
               </Link>
               <BacklogStatusBadge status={b.status} />
@@ -160,7 +160,7 @@ export default async function MeetingPage({ params }: PageProps<"/app/meetings/[
                   <ul className="space-y-1.5">
                     {troubled.map((p) => (
                       <li key={p.id} className="flex items-center gap-3 text-sm">
-                        <Link href={`/app/projects/${p.id}`} className="min-w-0 flex-1 truncate text-navy-900 hover:text-brand-700">{p.name}</Link>
+                        <Link href={`/app/projects/${p.id}`} className="min-w-0 flex-1 truncate text-navy-900 hover:text-brand-800">{p.name}</Link>
                         <HealthBadge health={p.health} />
                       </li>
                     ))}

@@ -82,19 +82,26 @@ export async function generateWorkspace(orgId: string, config: Blueprint, extras
   ]);
 
   // People (resources). If the owner listed nobody and wants sample data, the
-  // sample team is used instead.
+  // sample team is used instead. People imported during setup are kept and not
+  // duplicated.
   const listed = extras.people.filter((p) => p.name.trim());
   let realPeople: { id: string; discipline: string | null; user_id: string | null }[] = [];
-  if (modules.resources && !peopleCount && (listed.length || !extras.sampleData)) {
-    const rows: Record<string, unknown>[] = listed.map((p) => ({
-      organization_id: orgId,
-      name: p.name.trim(),
-      discipline: p.discipline || null,
-      role_title: finalConfig.disciplines.find((d) => d.key === p.discipline)?.label ?? null,
-      employment_type: p.employment_type,
-      capacity_hours_per_quarter: p.capacity || finalConfig.capacityPerQuarter,
-    }));
-    if (!listed.some((p) => p.name.trim() === ownerName)) {
+  if (modules.resources && (listed.length || !extras.sampleData)) {
+    const { data: existingPeople } = await supabase.from("people").select("id, name, discipline, user_id").eq("organization_id", orgId);
+    const existing = existingPeople ?? [];
+    const known = new Set(existing.map((p) => p.name.trim().toLowerCase()));
+    const rows: Record<string, unknown>[] = listed
+      .filter((p) => !known.has(p.name.trim().toLowerCase()))
+      .map((p) => ({
+        organization_id: orgId,
+        name: p.name.trim(),
+        discipline: p.discipline || null,
+        role_title: finalConfig.disciplines.find((d) => d.key === p.discipline)?.label ?? null,
+        employment_type: p.employment_type,
+        capacity_hours_per_quarter: p.capacity || finalConfig.capacityPerQuarter,
+      }));
+    const ownerListed = listed.some((p) => p.name.trim().toLowerCase() === ownerName.toLowerCase()) || known.has(ownerName.toLowerCase());
+    if (!ownerListed && !existing.some((p) => p.user_id === user.id)) {
       rows.unshift({
         organization_id: orgId,
         name: ownerName,
@@ -105,9 +112,12 @@ export async function generateWorkspace(orgId: string, config: Blueprint, extras
         capacity_hours_per_quarter: finalConfig.capacityPerQuarter,
       });
     }
-    const { data, error } = await supabase.from("people").insert(rows).select("id, discipline, user_id");
-    if (error) return { error: `People: ${error.message}` };
-    realPeople = data ?? [];
+    if (rows.length) {
+      const { data, error } = await supabase.from("people").insert(rows).select("id, discipline, user_id");
+      if (error) return { error: `People: ${error.message}` };
+      realPeople = data ?? [];
+    }
+    realPeople = [...realPeople, ...existing.map((p) => ({ id: p.id, discipline: p.discipline, user_id: p.user_id }))];
   }
 
   // Invitations

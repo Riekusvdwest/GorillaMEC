@@ -138,7 +138,7 @@ function Card({ card, href, readOnly }: { card: BoardCard; href: string; readOnl
             <GripVertical className="h-4 w-4" />
           </button>
         ) : null}
-        <Link href={href} scroll={false} className="flex-1 text-sm font-medium text-navy-900 hover:text-brand-700">
+        <Link href={href} scroll={false} className="flex-1 text-sm font-medium text-navy-900 hover:text-brand-800">
           {card.title}
         </Link>
       </div>

@@ -56,7 +56,7 @@ export function MethodologyPicker() {
             onClick={() => setActive(o.key)}
             className={cn(
               "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
-              o.key === active ? "border-brand-500 bg-brand-500 text-white" : "border-navy-200 bg-white text-navy-700 hover:border-navy-400",
+              o.key === active ? "border-brand-500 bg-brand-500 text-navy-950" : "border-navy-200 bg-white text-navy-700 hover:border-navy-400",
             )}
           >
             {o.label}
@@ -69,7 +69,7 @@ export function MethodologyPicker() {
           <ul className="mt-5 space-y-3">
             {opt.points.map((p) => (
               <li key={p} className="flex gap-3 text-navy-800">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-brand-500" aria-hidden />
+                <Check className="mt-0.5 h-5 w-5 shrink-0 text-brand-600" aria-hidden />
                 <span>{p}</span>
               </li>
             ))}

@@ -50,7 +50,7 @@ export default async function MyWorkPage({ searchParams }: PageProps<"/app/my-wo
 
   const groups = [
     { key: "overdue", label: "Overdue", tone: "text-red-600", items: tasks.filter((t) => t.due_date && t.due_date < today) },
-    { key: "today", label: "Today", tone: "text-brand-600", items: tasks.filter((t) => t.due_date === today || (t.bucket === "today" && (!t.due_date || t.due_date > today))) },
+    { key: "today", label: "Today", tone: "text-brand-700", items: tasks.filter((t) => t.due_date === today || (t.bucket === "today" && (!t.due_date || t.due_date > today))) },
     { key: "week", label: "Next 7 days", tone: "text-navy-900", items: tasks.filter((t) => t.due_date && t.due_date > today && t.due_date <= in7 && t.bucket !== "today") },
     { key: "later", label: "Later", tone: "text-navy-900", items: tasks.filter((t) => t.due_date && t.due_date > in7 && t.bucket !== "today") },
     { key: "none", label: "No date", tone: "text-navy-900", items: tasks.filter((t) => !t.due_date && t.bucket !== "today") },
@@ -138,7 +138,7 @@ export default async function MyWorkPage({ searchParams }: PageProps<"/app/my-wo
                         </AutoSubmitSelect>
                       </form>
                     ) : null}
-                    <Link href={`${base}&task=${t.id}`} scroll={false} className="min-w-0 flex-1 truncate text-sm font-medium text-navy-900 hover:text-brand-700">
+                    <Link href={`${base}&task=${t.id}`} scroll={false} className="min-w-0 flex-1 truncate text-sm font-medium text-navy-900 hover:text-brand-800">
                       {t.title}
                     </Link>
                     <PriorityBadge priority={t.priority} />

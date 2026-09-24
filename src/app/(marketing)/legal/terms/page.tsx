@@ -39,7 +39,7 @@ export default function TermsPage() {
       <h2>Changes and law</h2>
       <p>We may update these terms and will tell account owners about material changes. Dutch law applies.</p>
       <p>
-        Contact: <a className="text-brand-600" href="mailto:info@gorillamec.com">info@gorillamec.com</a>
+        Contact: <a className="text-brand-700" href="mailto:info@gorillamec.com">info@gorillamec.com</a>
       </p>
     </>
   );

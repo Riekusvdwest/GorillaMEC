@@ -125,8 +125,8 @@ export default async function SettingsPage() {
         <Card className="xl:col-span-2">
           <CardHeader title="Your data" />
           <div className="p-5 text-sm text-navy-700">
-            Need a full export or want your company deleted? Email <a className="text-brand-600 hover:underline" href="mailto:info@gorillamec.com">info@gorillamec.com</a>. Self-service export is on the roadmap for Gold.{" "}
-            <Link href="/legal/privacy" className="text-brand-600 hover:underline">Privacy policy</Link>
+            Need a full export or want your company deleted? Email <a className="text-brand-700 hover:underline" href="mailto:info@gorillamec.com">info@gorillamec.com</a>. Self-service export is on the roadmap for Gold.{" "}
+            <Link href="/legal/privacy" className="text-brand-700 hover:underline">Privacy policy</Link>
           </div>
         </Card>
       </div>

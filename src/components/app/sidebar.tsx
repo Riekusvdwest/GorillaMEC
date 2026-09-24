@@ -42,7 +42,7 @@ export function Sidebar({ items, footer, orgSwitcher }: { items: NavItem[]; foot
           >
             <Icon className={cn("h-4 w-4", active ? "text-brand-400" : "text-navy-400")} aria-hidden />
             <span className="flex-1">{it.label}</span>
-            {it.badge ? <span className="rounded-full bg-brand-500 px-1.5 text-[10px] font-semibold text-white">{it.badge}</span> : null}
+            {it.badge ? <span className="rounded-full bg-brand-500 px-1.5 text-[10px] font-semibold text-navy-950">{it.badge}</span> : null}
           </Link>
         );
       })}

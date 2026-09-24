@@ -19,7 +19,7 @@ const FAQ = [
 ];
 
 function CellValue({ v }: { v: Cell }) {
-  if (v === true) return <Check className="mx-auto h-5 w-5 text-brand-500" aria-label="Included" />;
+  if (v === true) return <Check className="mx-auto h-5 w-5 text-brand-600" aria-label="Included" />;
   if (v === false) return <Minus className="mx-auto h-5 w-5 text-navy-200" aria-label="Not included" />;
   return <span className="text-sm text-navy-800">{v}</span>;
 }
@@ -66,7 +66,7 @@ export default function PricingPage() {
             <details key={f.q} className="group px-6 py-5">
               <summary className="flex cursor-pointer list-none items-center justify-between font-medium text-navy-950 [&::-webkit-details-marker]:hidden">
                 {f.q}
-                <span className="ml-4 text-brand-500 transition-transform group-open:rotate-45">+</span>
+                <span className="ml-4 text-brand-600 transition-transform group-open:rotate-45">+</span>
               </summary>
               <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{f.a}</p>
             </details>

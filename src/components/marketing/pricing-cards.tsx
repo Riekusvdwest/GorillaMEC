@@ -41,7 +41,7 @@ export function PricingCards() {
             >
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-navy-950">{p.name}</h2>
-                {p.highlight ? <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700">Most popular</span> : null}
+                {p.highlight ? <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-800">Most popular</span> : null}
               </div>
               <p className="mt-2 text-sm text-[var(--muted)]">{p.tagline}</p>
               <p className="mt-6">
@@ -55,7 +55,7 @@ export function PricingCards() {
               <ul className="mt-5 flex-1 space-y-3 text-sm text-navy-800">
                 {p.bullets.map((b) => (
                   <li key={b} className="flex gap-2.5">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" aria-hidden />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden />
                     {b}
                   </li>
                 ))}

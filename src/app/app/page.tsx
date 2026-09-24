@@ -65,7 +65,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/app">)
       {sp.welcome ? (
         <Card className="mb-6 overflow-hidden border-brand-200">
           <div className="flex flex-col gap-4 bg-gradient-to-r from-brand-50 to-white p-5 sm:flex-row sm:items-center">
-            <Sparkles className="h-8 w-8 shrink-0 text-brand-500" />
+            <Sparkles className="h-8 w-8 shrink-0 text-brand-600" />
             <div className="flex-1">
               <p className="font-semibold text-navy-950">Your workspace is ready.</p>
               <p className="text-sm text-navy-700">Three things worth doing next:</p>
@@ -80,7 +80,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/app">)
       ) : null}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat label="My open work" value={(myTasks ?? []).length} hint={<Link href="/app/my-work" className="text-brand-600 hover:underline">Open My work →</Link>} />
+        <Stat label="My open work" value={(myTasks ?? []).length} hint={<Link href="/app/my-work" className="text-brand-700 hover:underline">Open My work →</Link>} />
         <Stat label="My overdue" value={overdue} tone={overdue ? "red" : "green"} />
         <Stat label={`${plural(bp.levels.project.label)} at risk`} value={`${atRisk.length}/${proj.length}`} tone={atRisk.length ? "amber" : undefined} />
         {portfolio ? <Stat label="New requests" value={newReq} hint="Waiting for triage" tone={newReq ? "amber" : undefined} /> : <Stat label="My hours this week" value={hours} />}
@@ -88,11 +88,11 @@ export default async function DashboardPage({ searchParams }: PageProps<"/app">)
 
       <div className="mt-6 grid gap-6 xl:grid-cols-3">
         <Card className="xl:col-span-2">
-          <CardHeader title={`${plural(bp.levels.project.label)} by health`} action={<Link href="/app/projects" className="text-sm text-brand-600 hover:underline">All</Link>} />
+          <CardHeader title={`${plural(bp.levels.project.label)} by health`} action={<Link href="/app/projects" className="text-sm text-brand-700 hover:underline">All</Link>} />
           <ul className="divide-y divide-[var(--border)]">
             {[...proj].sort((a, b) => severity[a.health] - severity[b.health]).slice(0, 8).map((p) => (
               <li key={p.id} className="flex flex-wrap items-center gap-3 px-5 py-3">
-                <Link href={`/app/projects/${p.id}`} className="min-w-0 flex-1 truncate text-sm font-medium text-navy-900 hover:text-brand-700">{p.name}</Link>
+                <Link href={`/app/projects/${p.id}`} className="min-w-0 flex-1 truncate text-sm font-medium text-navy-900 hover:text-brand-800">{p.name}</Link>
                 <span className="text-xs text-[var(--muted)]">{p.end_date ? `ends ${formatShortDate(p.end_date)}` : ""}</span>
                 <span className="w-28"><HealthBadge health={p.health} /></span>
               </li>
@@ -107,7 +107,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/app">)
             {decisions.slice(0, 5).map((b) => (
               <li key={b.id} className="flex items-center gap-3 px-5 py-3">
                 <ScorePill score={b.score} max={maxScore} />
-                <Link href={`/app/portfolio/${b.id}`} className="min-w-0 flex-1 truncate text-sm text-navy-900 hover:text-brand-700">
+                <Link href={`/app/portfolio/${b.id}`} className="min-w-0 flex-1 truncate text-sm text-navy-900 hover:text-brand-800">
                   <span className="text-[var(--muted)]">{backlogId(b.number)}</span> {b.title}
                 </Link>
               </li>
@@ -115,7 +115,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/app">)
             {undecided.slice(0, 5 - Math.min(5, decisions.length)).map((p) => (
               <li key={p.id} className="flex items-center gap-3 px-5 py-3">
                 <span className="rounded-md bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800">Decide</span>
-                <Link href={`/app/projects/${p.id}`} className="min-w-0 flex-1 truncate text-sm text-navy-900 hover:text-brand-700">{p.name}</Link>
+                <Link href={`/app/projects/${p.id}`} className="min-w-0 flex-1 truncate text-sm text-navy-900 hover:text-brand-800">{p.name}</Link>
               </li>
             ))}
             {!decisions.length && !undecided.length ? <li className="px-5 py-6 text-sm text-[var(--muted)]">Nothing waiting on a decision.</li> : null}
@@ -124,7 +124,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/app">)
 
         {portfolio ? (
           <Card>
-            <CardHeader title="Portfolio funnel" action={<Link href="/app/portfolio" className="text-sm text-brand-600 hover:underline">Backlog</Link>} />
+            <CardHeader title="Portfolio funnel" action={<Link href="/app/portfolio" className="text-sm text-brand-700 hover:underline">Backlog</Link>} />
             <div className="space-y-2 p-5">
               {BACKLOG_STATUSES.map((s) => {
                 const n = backlog.filter((b) => b.status === s.key).length;
@@ -146,7 +146,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/app">)
 
         {resources ? (
           <Card>
-            <CardHeader title={`Capacity hot spots · ${quarter.short}`} action={<Link href="/app/capacity" className="text-sm text-brand-600 hover:underline">Capacity</Link>} />
+            <CardHeader title={`Capacity hot spots · ${quarter.short}`} action={<Link href="/app/capacity" className="text-sm text-brand-700 hover:underline">Capacity</Link>} />
             <ul className="divide-y divide-[var(--border)]">
               {load.slice(0, 5).map((p) => (
                 <li key={p.id} className="flex items-center gap-3 px-5 py-3 text-sm">
@@ -161,7 +161,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/app">)
 
         {governance ? (
           <Card>
-            <CardHeader title="Upcoming meetings" action={<Link href="/app/meetings" className="text-sm text-brand-600 hover:underline">All</Link>} />
+            <CardHeader title="Upcoming meetings" action={<Link href="/app/meetings" className="text-sm text-brand-700 hover:underline">All</Link>} />
             <ul className="divide-y divide-[var(--border)]">
               {(meetingsRes.data ?? []).map((m) => (
                 <li key={m.id}>

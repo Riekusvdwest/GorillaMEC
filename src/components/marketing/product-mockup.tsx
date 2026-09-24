@@ -54,7 +54,7 @@ export function ProductMockup() {
               </div>
               <div className="flex gap-2 text-xs">
                 <span className="rounded-md bg-white/5 px-2.5 py-1 text-navy-200">12 new requests</span>
-                <span className="rounded-md bg-brand-500 px-2.5 py-1 font-medium text-white">+ Intake form</span>
+                <span className="rounded-md bg-brand-500 px-2.5 py-1 font-medium text-navy-950">+ Intake form</span>
               </div>
             </div>
             <div className="overflow-hidden rounded-lg border border-white/10">

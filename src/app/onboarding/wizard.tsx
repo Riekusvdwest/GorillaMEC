@@ -16,6 +16,8 @@ import {
 import { monthName } from "@/lib/fiscal";
 import { describeRule, WEEKDAYS } from "@/lib/meetings";
 import { Button, Field, Input, Label, Logo, Select, buttonClass } from "@/components/ui";
+import { Importer } from "@/app/app/import/importer";
+import { TARGETS, type ImportTarget } from "@/lib/import-map";
 import { cn } from "@/lib/utils";
 import { createCompany, generateWorkspace, saveDraft, type WizardExtras } from "./actions";
 
@@ -46,6 +48,7 @@ export function Wizard({
   const [step, setStep] = useState(initialOrgId && initial ? 1 : 0);
   const [bp, setBp] = useState<Blueprint>(initial ?? presetBlueprint("critical_facilities", ""));
   const [extras, setExtras] = useState<WizardExtras>({ people: [], invites: [], sampleData: !rerun, goToImport: false });
+  const [imports, setImports] = useState<{ target: ImportTarget; created: number; file: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   const has = (f: string) => features.includes(f);
@@ -126,7 +129,7 @@ export function Wizard({
                 <span
                   className={cn(
                     "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs",
-                    i < step ? "bg-brand-500 text-white" : i === step ? "bg-navy-900 text-white" : "bg-navy-100 text-navy-500",
+                    i < step ? "bg-brand-500 text-navy-950" : i === step ? "bg-navy-900 text-white" : "bg-navy-100 text-navy-500",
                   )}
                 >
                   {i < step ? <Check className="h-3.5 w-3.5" /> : i + 1}
@@ -146,7 +149,19 @@ export function Wizard({
             {step === 4 && <StepWorkflow bp={bp} update={update} setBp={setBp} />}
             {step === 5 && <StepTeam bp={bp} update={update} extras={extras} setExtras={setExtras} has={has} />}
             {step === 6 && <StepGovernance bp={bp} update={update} setBp={setBp} has={has} />}
-            {step === 7 && <StepImport extras={extras} setExtras={setExtras} />}
+            {step === 7 && (
+              <StepImport
+                bp={bp}
+                features={features}
+                extras={extras}
+                setExtras={setExtras}
+                imports={imports}
+                onImported={(r) => {
+                  setImports((list) => [...list, r]);
+                  setExtras((x) => ({ ...x, sampleData: false, goToImport: false }));
+                }}
+              />
+            )}
             {step === 8 && <StepReview bp={bp} extras={extras} setExtras={setExtras} has={has} rerun={rerun} />}
 
             {error ? <p className="mt-6 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 ring-1 ring-red-100" role="alert">{error}</p> : null}
@@ -158,7 +173,7 @@ export function Wizard({
               {step < STEPS.length - 1 ? (
                 <Button type="button" onClick={next} disabled={pending}>
                   {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                  {step === 0 && !orgId ? "Create workspace" : "Continue"} <ArrowRight className="h-4 w-4" />
+                  {step === 0 && !orgId ? "Create workspace" : step === 7 && !imports.length ? "Skip for now" : "Continue"} <ArrowRight className="h-4 w-4" />
                 </Button>
               ) : (
                 <Button type="button" size="lg" onClick={finish} disabled={pending}>
@@ -293,7 +308,7 @@ function StepMethod({ bp, update }: { bp: Blueprint; update: (p: Partial<Bluepri
             onClick={() => update({ methodology: m.key })}
             className={cn("flex items-start gap-4 rounded-xl border p-4 text-left", bp.methodology === m.key ? "border-brand-500 bg-brand-50/50 ring-1 ring-brand-500" : "border-[var(--border)] hover:border-navy-300")}
           >
-            <span className={cn("mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border", bp.methodology === m.key ? "border-brand-500 bg-brand-500 text-white" : "border-navy-300")}>
+            <span className={cn("mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border", bp.methodology === m.key ? "border-brand-500 bg-brand-500 text-navy-950" : "border-navy-300")}>
               {bp.methodology === m.key ? <Check className="h-3 w-3" /> : null}
             </span>
             <span>
@@ -305,7 +320,7 @@ function StepMethod({ bp, update }: { bp: Blueprint; update: (p: Partial<Bluepri
         ))}
       </div>
       <div className="mt-6 rounded-xl border border-dashed border-navy-200 p-4">
-        <button type="button" onClick={() => setOpen((o) => !o)} className="flex items-center gap-2 font-medium text-brand-600">
+        <button type="button" onClick={() => setOpen((o) => !o)} className="flex items-center gap-2 font-medium text-brand-700">
           <Sparkles className="h-4 w-4" /> Not sure? Answer 5 quick questions
         </button>
         {open ? (
@@ -710,23 +725,59 @@ function StepGovernance({ bp, update, setBp, has }: { bp: Blueprint; update: (p:
   );
 }
 
-function StepImport({ extras, setExtras }: { extras: WizardExtras; setExtras: React.Dispatch<React.SetStateAction<WizardExtras>> }) {
+function StepImport({
+  bp,
+  features,
+  extras,
+  setExtras,
+  imports,
+  onImported,
+}: {
+  bp: Blueprint;
+  features: string[];
+  extras: WizardExtras;
+  setExtras: React.Dispatch<React.SetStateAction<WizardExtras>>;
+  imports: { target: ImportTarget; created: number; file: string }[];
+  onImported: (r: { target: ImportTarget; created: number; file: string }) => void;
+}) {
   return (
     <>
-      <StepTitle title="Bring your existing work" body="Import an Excel tracker, a CSV, or an MS Planner export straight after setup. You match columns to fields and preview before anything is saved." />
-      <ul className="mb-6 grid gap-3 sm:grid-cols-3">
-        {[
-          ["Tasks", "Title, status, priority, bucket, assignee, dates, project"],
-          ["Backlog items", "Title, source, site, impact, scores, status, quarter"],
-          ["Projects and people", "Charter fields, budgets, disciplines, capacity"],
-        ].map(([t, b]) => (
-          <li key={t} className="rounded-xl border border-[var(--border)] p-4">
-            <p className="font-medium text-navy-950">{t}</p>
-            <p className="mt-1 text-sm text-[var(--muted)]">{b}</p>
-          </li>
-        ))}
-      </ul>
-      <Toggle checked={extras.goToImport} onChange={(v) => setExtras((x) => ({ ...x, goToImport: v }))} label="Take me to the importer when setup finishes" />
+      <StepTitle
+        title="Bring your existing work"
+        body="Upload an Excel tracker, a CSV or an MS Planner export. Match its columns to fields, check the preview, then import. You can import several files, one after another, or skip this and do it later."
+      />
+      {imports.length ? (
+        <div className="mb-6 rounded-xl border border-brand-300 bg-brand-50 p-4">
+          <p className="flex items-center gap-2 font-medium text-navy-950">
+            <Check className="h-4 w-4 text-brand-700" /> Imported so far
+          </p>
+          <ul className="mt-2 space-y-1 text-sm text-navy-800">
+            {imports.map((r, i) => (
+              <li key={i}>
+                {r.created} {TARGETS.find((t) => t.key === r.target)?.label.toLowerCase() ?? r.target} from {r.file}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-2 text-xs text-[var(--muted)]">Sample data is now off, so your workspace starts with only your own work. You can switch it back on in the last step.</p>
+        </div>
+      ) : null}
+      <Importer
+        embedded
+        features={features}
+        criteria={bp.scoring.criteria}
+        projectLabel={bp.levels.project.label}
+        onImported={onImported}
+      />
+      {!imports.length ? (
+        <div className="mt-6">
+          <Toggle
+            checked={extras.goToImport}
+            onChange={(v) => setExtras((x) => ({ ...x, goToImport: v }))}
+            label="I'll do it later: open the importer when setup finishes"
+            hint="You can also find it any time under Import in the sidebar."
+          />
+        </div>
+      ) : null}
     </>
   );
 }

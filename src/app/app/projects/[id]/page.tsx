@@ -197,7 +197,7 @@ function TaskTable({ tasks, bp, base, memberName, canWrite }: { tasks: Task[]; b
                   )}
                 </td>
                 <td className="px-3 py-2">
-                  <Link href={`${base}&task=${t.id}`} scroll={false} className={cn("font-medium hover:text-brand-700", statusCategory(t.status) === "done" ? "text-[var(--muted)] line-through" : "text-navy-900")}>
+                  <Link href={`${base}&task=${t.id}`} scroll={false} className={cn("font-medium hover:text-brand-800", statusCategory(t.status) === "done" ? "text-[var(--muted)] line-through" : "text-navy-900")}>
                     {t.title}
                   </Link>
                   {(t.checklist ?? []).length ? <span className="ml-2 text-xs text-[var(--muted)]">☑ {(t.checklist ?? []).filter((c) => c.done).length}/{t.checklist.length}</span> : null}
@@ -366,7 +366,7 @@ async function Charter({ ws, p, tasks }: { ws: Awaited<ReturnType<typeof getWork
         {origin ? (
           <Card className="p-5 text-sm">
             <p className="text-[var(--muted)]">Came from backlog item</p>
-            <Link className="font-medium text-brand-700 hover:underline" href={`/app/portfolio/${origin.id}`}>BL-{String(origin.number).padStart(3, "0")} · {origin.title}</Link>
+            <Link className="font-medium text-brand-800 hover:underline" href={`/app/portfolio/${origin.id}`}>BL-{String(origin.number).padStart(3, "0")} · {origin.title}</Link>
             {p.committed_quarter ? <p className="mt-1 text-[var(--muted)]">Committed for {quarterByKey(p.committed_quarter, bp.company.fiscalYearStartMonth)?.short}</p> : null}
           </Card>
         ) : null}

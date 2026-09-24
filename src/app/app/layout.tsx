@@ -37,7 +37,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
   const orgSwitcher = (
     <details className="group relative">
       <summary className="flex cursor-pointer list-none items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-left hover:bg-white/10 [&::-webkit-details-marker]:hidden">
-        <span className="flex h-8 w-8 items-center justify-center rounded-md bg-brand-500 text-xs font-semibold text-white">{initials(ws.org.name)}</span>
+        <span className="flex h-8 w-8 items-center justify-center rounded-md bg-brand-500 text-xs font-semibold text-navy-950">{initials(ws.org.name)}</span>
         <span className="min-w-0 flex-1">
           <span className="block truncate text-sm font-medium text-white">{ws.org.name}</span>
           <span className="block text-xs capitalize text-navy-300">
@@ -87,7 +87,7 @@ export default async function AppLayout({ children }: LayoutProps<"/app">) {
             {ws.isAdmin ? <Link href="/app/billing" className="font-semibold underline">Choose a plan</Link> : "Ask an admin to choose a plan."}
           </div>
         ) : days !== null && days <= 14 ? (
-          <div className="border-b border-brand-100 bg-brand-50 px-4 py-2 text-center text-sm text-brand-800">
+          <div className="border-b border-brand-100 bg-brand-50 px-4 py-2 text-center text-sm text-brand-900">
             {days} day{days === 1 ? "" : "s"} left in your Premium trial.{" "}
             {ws.isAdmin ? <Link href="/app/billing" className="font-semibold underline">Choose a plan</Link> : null}
           </div>

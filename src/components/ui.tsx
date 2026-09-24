@@ -1,17 +1,19 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "ghost" | "danger" | "dark" | "outlineLight";
+type Variant = "primary" | "secondary" | "ghost" | "danger" | "dark" | "outlineLight" | "outlineDark";
 type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-brand-500 text-white hover:bg-brand-600 shadow-sm shadow-brand-500/20",
+  primary: "bg-brand-500 font-semibold text-navy-950 hover:bg-brand-400 shadow-sm shadow-brand-500/20",
   secondary: "bg-white text-navy-900 border border-[var(--border)] hover:bg-navy-50",
   ghost: "text-navy-700 hover:bg-navy-50",
   danger: "bg-red-600 text-white hover:bg-red-700",
   dark: "bg-navy-900 text-white hover:bg-navy-800",
   outlineLight: "border border-white/30 bg-white/5 text-white hover:bg-white/10",
+  outlineDark: "border border-navy-950/40 text-navy-950 hover:bg-navy-950/5",
 };
 const sizes: Record<Size, string> = {
   sm: "h-8 px-3 text-sm gap-1.5",
@@ -37,7 +39,7 @@ export function ButtonLink({ variant, size, className, ...props }: ComponentProp
 }
 
 const field =
-  "w-full rounded-lg border border-[var(--border)] bg-white px-3 text-sm text-navy-900 placeholder:text-navy-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 disabled:bg-navy-50";
+  "w-full rounded-lg border border-[var(--border)] bg-white px-3 text-sm text-navy-900 placeholder:text-navy-300 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/30 disabled:bg-navy-50";
 
 export function Input({ className, ...props }: ComponentProps<"input">) {
   return <input className={cn(field, "h-10", className)} {...props} />;
@@ -72,7 +74,7 @@ export function Field({ label, hint, children, className }: { label: string; hin
 type Tone = "neutral" | "brand" | "green" | "amber" | "red" | "blue" | "navy";
 const tones: Record<Tone, string> = {
   neutral: "bg-navy-50 text-navy-700 ring-navy-100",
-  brand: "bg-brand-50 text-brand-700 ring-brand-100",
+  brand: "bg-brand-50 text-brand-800 ring-brand-100",
   green: "bg-emerald-50 text-emerald-700 ring-emerald-100",
   amber: "bg-amber-50 text-amber-800 ring-amber-100",
   red: "bg-red-50 text-red-700 ring-red-100",
@@ -90,7 +92,7 @@ export function Badge({ tone = "neutral", className, children }: { tone?: Tone; 
 
 export function Card({ className, children, ...props }: ComponentProps<"div">) {
   return (
-    <div className={cn("rounded-xl border border-[var(--border)] bg-white shadow-[0_1px_2px_rgba(11,27,43,0.04)]", className)} {...props}>
+    <div className={cn("rounded-xl border border-[var(--border)] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]", className)} {...props}>
       {children}
     </div>
   );
@@ -112,7 +114,7 @@ export function PageHeader({ title, subtitle, actions, eyebrow }: { title: React
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-6">
       <div className="min-w-0">
-        {eyebrow ? <div className="mb-1 text-xs font-medium uppercase tracking-wider text-brand-600">{eyebrow}</div> : null}
+        {eyebrow ? <div className="mb-1 text-xs font-medium uppercase tracking-wider text-brand-700">{eyebrow}</div> : null}
         <h1 className="text-2xl font-semibold text-navy-950 truncate">{title}</h1>
         {subtitle ? <p className="mt-1 text-sm text-[var(--muted)]">{subtitle}</p> : null}
       </div>
@@ -163,17 +165,19 @@ export function Progress({ value, className }: { value: number; className?: stri
   );
 }
 
-export function Logo({ className, dark = false }: { className?: string; dark?: boolean }) {
+/** GorillaPM lockup: the GorillaMEC gorilla in mint with the wordmark. `dark` = placed on a dark background. */
+export function Logo({ className, dark = false, height = 30 }: { className?: string; dark?: boolean; height?: number }) {
+  const width = Math.round((height * 446) / 95);
   return (
-    <span className={cn("inline-flex items-center gap-2", className)}>
-      <svg viewBox="0 0 32 32" className="h-7 w-7" aria-hidden>
-        <rect width="32" height="32" rx="8" fill="#ff6a13" />
-        <path d="M8 8h16M8 16h16M8 24h16M8 8v16M16 8v16M24 8v16" stroke="#0b1b2b" strokeOpacity=".18" strokeWidth="1" />
-        <path d="M22.5 11.5A8 8 0 1 0 24 17h-7" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-      <span className={cn("font-display text-lg font-semibold tracking-tight", dark ? "text-white" : "text-navy-950")}>
-        Gorilla<span className="text-brand-500">PM</span>
-      </span>
-    </span>
+    <Image
+      src={dark ? "/brand/gorillapm-logo-white.svg" : "/brand/gorillapm-logo.svg"}
+      alt="GorillaPM"
+      width={width}
+      height={height}
+      priority
+      unoptimized
+      className={cn("inline-block select-none", className)}
+      style={{ width, height }}
+    />
   );
 }

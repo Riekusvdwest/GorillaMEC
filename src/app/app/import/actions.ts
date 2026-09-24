@@ -45,6 +45,19 @@ function pickHeaderRow(grid: string[][]) {
   return best;
 }
 
+const GOOD_SHEET = /task|tracker|backlog|intake|request|project|programme|program|people|resource|team|sprint|plan|log/i;
+const BAD_SHEET = /dashboard|summary|chart|graph|instruction|read ?me|lookup|dropdown|config|setting|pivot|legend|cover|about|help/i;
+
+/** Pick the sheet that most likely holds the data: named like a tracker, not a dashboard, with the most rows. */
+function bestSheet<T extends { name: string; actualRowCount: number }>(sheets: T[]): T {
+  const score = (w: T) => {
+    const rows = w.actualRowCount || 0;
+    if (BAD_SHEET.test(w.name)) return rows * 0.1;
+    return GOOD_SHEET.test(w.name) && rows > 1 ? rows * 2 + 50 : rows;
+  };
+  return sheets.reduce((best, w) => (score(w) > score(best) ? w : best), sheets[0]!);
+}
+
 export async function parseImportFile(fd: FormData): Promise<ParsedSheet> {
   await writeContext();
   const file = fd.get("file");
@@ -69,7 +82,9 @@ export async function parseImportFile(fd: FormData): Promise<ParsedSheet> {
       const wb = new ExcelJS.Workbook();
       await wb.xlsx.load(Buffer.from(await file.arrayBuffer()) as unknown as ArrayBuffer);
       sheets = wb.worksheets.filter((w) => w.state !== "hidden" && w.state !== "veryHidden").map((w) => w.name);
-      const ws = wb.worksheets.find((w) => w.name === wanted) ?? wb.worksheets.find((w) => sheets.includes(w.name))!;
+      const visible = wb.worksheets.filter((w) => sheets.includes(w.name));
+      if (!visible.length) throw new Error("The workbook has no visible sheets.");
+      const ws = visible.find((w) => w.name === wanted) ?? bestSheet(visible);
       sheet = ws.name;
       const maxCol = Math.min(ws.columnCount || 60, 80);
       ws.eachRow({ includeEmpty: true }, (row, rowNumber) => {

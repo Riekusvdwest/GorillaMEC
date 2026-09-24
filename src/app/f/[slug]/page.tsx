@@ -25,7 +25,7 @@ export default async function IntakePage({ params }: PageProps<"/f/[slug]">) {
       </div>
       <div className="mx-auto -mt-16 max-w-2xl px-4 pb-16">
         <IntakeForm slug={slug} quarters={quarters} />
-        <p className="mt-6 flex items-center justify-center gap-2 text-xs text-[var(--muted)]">Powered by <Logo className="scale-75" /></p>
+        <p className="mt-6 flex items-center justify-center gap-2 text-xs text-[var(--muted)]">Powered by <Logo height={18} /></p>
       </div>
     </div>
   );

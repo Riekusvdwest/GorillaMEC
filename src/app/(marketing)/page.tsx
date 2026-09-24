@@ -95,7 +95,7 @@ export default function HomePage() {
           {LOOP.map((s, i) => (
             <li key={s.title} className="relative rounded-2xl border border-[var(--border)] bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                   <s.icon className="h-5 w-5" aria-hidden />
                 </span>
                 <span className="font-display text-sm font-semibold text-navy-200">0{i + 1}</span>
@@ -123,14 +123,14 @@ export default function HomePage() {
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f) => (
             <div key={f.title} className="rounded-2xl border border-[var(--border)] p-6 transition-shadow hover:shadow-md">
-              <f.icon className="h-6 w-6 text-brand-500" aria-hidden />
+              <f.icon className="h-6 w-6 text-brand-600" aria-hidden />
               <h3 className="mt-4 text-lg font-semibold text-navy-950">{f.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{f.body}</p>
             </div>
           ))}
         </div>
         <div className="mt-10 text-center">
-          <Link href="/features" className="inline-flex items-center gap-1 font-medium text-brand-600 hover:text-brand-700">
+          <Link href="/features" className="inline-flex items-center gap-1 font-medium text-brand-700 hover:text-brand-800">
             See all features <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -169,7 +169,7 @@ export default function HomePage() {
             <div key={p.key} className={`rounded-2xl border bg-white p-7 ${p.highlight ? "border-brand-500 shadow-lg ring-1 ring-brand-500" : "border-[var(--border)]"}`}>
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-semibold text-navy-950">{p.name}</h3>
-                {p.highlight ? <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700">Most popular</span> : null}
+                {p.highlight ? <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-800">Most popular</span> : null}
               </div>
               <p className="mt-4">
                 <span className="font-display text-4xl font-semibold text-navy-950">€{p.monthly.toLocaleString("en-GB")}</span>
@@ -179,7 +179,7 @@ export default function HomePage() {
               <ul className="mt-6 space-y-2.5 text-sm text-navy-800">
                 {p.bullets.slice(0, 4).map((b) => (
                   <li key={b} className="flex gap-2">
-                    <Check className="h-4 w-4 shrink-0 text-brand-500" aria-hidden /> {b}
+                    <Check className="h-4 w-4 shrink-0 text-brand-600" aria-hidden /> {b}
                   </li>
                 ))}
               </ul>
@@ -195,16 +195,16 @@ export default function HomePage() {
 
       {/* Final CTA */}
       <Section>
-        <div className="relative overflow-hidden rounded-3xl bg-brand-500 px-6 py-14 text-center text-white sm:px-12">
+        <div className="relative overflow-hidden rounded-3xl bg-brand-500 px-6 py-14 text-center text-navy-950 sm:px-12">
           <div className="blueprint-light absolute inset-0 opacity-40" aria-hidden />
           <div className="relative">
             <h2 className="text-3xl font-semibold sm:text-4xl">Your spreadsheets did their job. Give them a promotion.</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90">Import your Excel tracker or MS Planner export on day one and keep every task, date and status.</p>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-navy-950/80">Import your Excel tracker or MS Planner export on day one and keep every task, date and status.</p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <ButtonLink href="/signup" size="lg" variant="dark">
                 Start free trial
               </ButtonLink>
-              <ButtonLink href="/contact" size="lg" variant="outlineLight">
+              <ButtonLink href="/contact" size="lg" variant="outlineDark">
                 Talk to us
               </ButtonLink>
             </div>

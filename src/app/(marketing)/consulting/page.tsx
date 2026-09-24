@@ -31,7 +31,7 @@ export default function ConsultingPage() {
         <div className="grid gap-6 md:grid-cols-3">
           {SERVICES.map((s) => (
             <div key={s.title} className="rounded-2xl border border-[var(--border)] p-7">
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                 <s.icon className="h-6 w-6" aria-hidden />
               </span>
               <h2 className="mt-5 text-xl font-semibold text-navy-950">{s.title}</h2>

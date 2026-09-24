@@ -156,7 +156,7 @@ export default async function BacklogItemPage({ params }: PageProps<"/app/portfo
                       {Array.from({ length: bp.scoring.scale }, (_, i) => i + 1).map((v) => (
                         <label key={v} className="cursor-pointer">
                           <input type="radio" name={`score_${c.key}`} value={v} defaultChecked={b.scores?.[c.key] === v} className="peer sr-only" disabled={ro} />
-                          <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] text-sm font-medium text-navy-700 peer-checked:border-brand-500 peer-checked:bg-brand-500 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500">
+                          <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] text-sm font-medium text-navy-700 peer-checked:border-brand-500 peer-checked:bg-brand-500 peer-checked:text-navy-950 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500">
                             {v}
                           </span>
                         </label>
@@ -294,11 +294,11 @@ export default async function BacklogItemPage({ params }: PageProps<"/app/portfo
                 <SubmitButton variant="secondary">Raise</SubmitButton>
               </form>
             ) : null}
-            {parent ? <p className="mt-3 text-sm">Follows up <Link href={`/app/portfolio/${parent.id}`} className="text-brand-700 hover:underline">{backlogId(parent.number)} {parent.title}</Link></p> : null}
+            {parent ? <p className="mt-3 text-sm">Follows up <Link href={`/app/portfolio/${parent.id}`} className="text-brand-800 hover:underline">{backlogId(parent.number)} {parent.title}</Link></p> : null}
             {children?.length ? (
               <ul className="mt-3 space-y-1 text-sm">
                 {children.map((c) => (
-                  <li key={c.id}><Link href={`/app/portfolio/${c.id}`} className="text-brand-700 hover:underline">{backlogId(c.number)} {c.title}</Link></li>
+                  <li key={c.id}><Link href={`/app/portfolio/${c.id}`} className="text-brand-800 hover:underline">{backlogId(c.number)} {c.title}</Link></li>
                 ))}
               </ul>
             ) : null}

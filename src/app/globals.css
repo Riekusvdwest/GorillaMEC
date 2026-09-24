@@ -4,36 +4,39 @@
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 
-  --color-navy-50: #eef3f8;
-  --color-navy-100: #d6e1ec;
-  --color-navy-200: #aec3d8;
-  --color-navy-300: #7f9dbd;
-  --color-navy-400: #56789d;
-  --color-navy-500: #3b5d82;
-  --color-navy-600: #2a4a6b;
-  --color-navy-700: #1b3550;
-  --color-navy-800: #12263b;
-  --color-navy-900: #0b1b2b;
-  --color-navy-950: #07111d;
+  /* "navy" is the neutral ink scale: GorillaMEC black with a hint of green */
+  --color-navy-50: #f3f5f4;
+  --color-navy-100: #e4e8e6;
+  --color-navy-200: #c8cfcc;
+  --color-navy-300: #a0aaa6;
+  --color-navy-400: #78837f;
+  --color-navy-500: #5a6461;
+  --color-navy-600: #434b48;
+  --color-navy-700: #2e3432;
+  --color-navy-800: #1b1f1e;
+  --color-navy-900: #0e1110;
+  --color-navy-950: #000000;
 
-  --color-brand-50: #fff4ec;
-  --color-brand-100: #ffe3cf;
-  --color-brand-200: #ffc49e;
-  --color-brand-300: #ff9f63;
-  --color-brand-400: #ff8a45;
-  --color-brand-500: #ff6a13;
-  --color-brand-600: #e85a06;
-  --color-brand-700: #c04808;
-  --color-brand-800: #973a0e;
-  --color-brand-900: #7a320f;
+  /* GorillaMEC mint green. 500 is the brand colour (use dark text on it);
+     600+ are darker shades for text and icons on white. */
+  --color-brand-50: #effcf7;
+  --color-brand-100: #dbf9ee;
+  --color-brand-200: #bdf4e1;
+  --color-brand-300: #9aeed2;
+  --color-brand-400: #7de9c6;
+  --color-brand-500: #59e2b4;
+  --color-brand-600: #16a072;
+  --color-brand-700: #0c7a57;
+  --color-brand-800: #0a5a41;
+  --color-brand-900: #083a2b;
 }
 
 :root {
-  --bg: #f6f8fb;
+  --bg: #f5f7f6;
   --surface: #ffffff;
-  --border: #e3e8ef;
-  --text: #0b1b2b;
-  --muted: #5b6b7f;
+  --border: #e2e7e5;
+  --text: #0e1110;
+  --muted: #5a6461;
   color-scheme: light;
 }
 
@@ -54,31 +57,31 @@ h1, h2, h3, .font-display {
   letter-spacing: -0.02em;
 }
 
-/* Blueprint grid — a nod to MEP drawings */
+/* Blueprint grid on GorillaMEC black — a nod to MEP drawings */
 .blueprint {
   background-color: var(--color-navy-950);
   background-image:
-    linear-gradient(rgba(127, 157, 189, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(127, 157, 189, 0.09) 1px, transparent 1px),
-    linear-gradient(rgba(127, 157, 189, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(127, 157, 189, 0.045) 1px, transparent 1px);
+    linear-gradient(rgba(89, 226, 180, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(89, 226, 180, 0.07) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
   background-position: -1px -1px;
 }
 
 .blueprint-light {
   background-image:
-    linear-gradient(rgba(11, 27, 43, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(11, 27, 43, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
 .glow {
-  box-shadow: 0 0 0 1px rgba(255, 106, 19, 0.35), 0 20px 60px -20px rgba(255, 106, 19, 0.45);
+  box-shadow: 0 0 0 1px rgba(89, 226, 180, 0.4), 0 20px 60px -18px rgba(89, 226, 180, 0.55);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-brand-500);
+  outline: 2px solid var(--color-brand-600);
   outline-offset: 2px;
 }
 
@@ -88,7 +91,7 @@ h1, h2, h3, .font-display {
 }
 
 dialog::backdrop {
-  background: rgba(7, 17, 29, 0.55);
+  background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(2px);
 }
 

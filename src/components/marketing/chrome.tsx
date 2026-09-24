@@ -122,7 +122,7 @@ export function Section({ children, className, id }: { children: React.ReactNode
 export function SectionTitle({ eyebrow, title, body, center, dark }: { eyebrow?: string; title: string; body?: string; center?: boolean; dark?: boolean }) {
   return (
     <div className={center ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
-      {eyebrow ? <p className="text-sm font-semibold uppercase tracking-wider text-brand-500">{eyebrow}</p> : null}
+      {eyebrow ? <p className={`text-sm font-semibold uppercase tracking-wider ${dark ? "text-brand-500" : "text-brand-700"}`}>{eyebrow}</p> : null}
       <h2 className={`mt-2 text-3xl font-semibold sm:text-4xl ${dark ? "text-white" : "text-navy-950"}`}>{title}</h2>
       {body ? <p className={`mt-4 text-lg leading-relaxed ${dark ? "text-navy-200" : "text-[var(--muted)]"}`}>{body}</p> : null}
     </div>

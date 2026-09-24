@@ -145,7 +145,7 @@ export default async function ProjectsPage({ searchParams }: PageProps<"/app/pro
                       return (
                         <tr key={p.id} className="hover:bg-navy-50/40">
                           <td className="px-5 py-3">
-                            <Link href={`/app/projects/${p.id}`} className="font-medium text-navy-950 hover:text-brand-700">
+                            <Link href={`/app/projects/${p.id}`} className="font-medium text-navy-950 hover:text-brand-800">
                               {p.code ? <span className="mr-2 text-[var(--muted)]">{p.code}</span> : null}
                               {p.name}
                             </Link>

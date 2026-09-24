@@ -67,7 +67,7 @@ export default async function CapacityPage() {
             <tr className="text-xs text-[var(--muted)]">
               <th className="px-5 py-2 text-left font-medium">Person</th>
               {quarters.map((q) => (
-                <th key={q.key} className={cn("px-2 py-2 text-center font-medium", q.key === now.key && "text-brand-700")}>{q.short}</th>
+                <th key={q.key} className={cn("px-2 py-2 text-center font-medium", q.key === now.key && "text-brand-800")}>{q.short}</th>
               ))}
             </tr>
           </thead>

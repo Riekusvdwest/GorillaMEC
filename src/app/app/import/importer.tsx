@@ -8,8 +8,22 @@ import { FIELDS, TARGETS, autoMap, scoreFields, type ImportTarget } from "@/lib/
 import { Button, Card, CardHeader, Field, Input, Select, buttonClass } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
-export function Importer({ features, criteria, projectLabel }: { features: string[]; criteria: { key: string; label: string }[]; projectLabel: string }) {
+export function Importer({
+  features,
+  criteria,
+  projectLabel,
+  embedded = false,
+  onImported,
+}: {
+  features: string[];
+  criteria: { key: string; label: string }[];
+  projectLabel: string;
+  /** Shown inside the setup wizard: no links into the app yet. */
+  embedded?: boolean;
+  onImported?: (summary: { target: ImportTarget; created: number; file: string }) => void;
+}) {
   const [file, setFile] = useState<File | null>(null);
+  const [dragging, setDragging] = useState(false);
   const [parsed, setParsed] = useState<ParsedSheet | null>(null);
   const [target, setTarget] = useState<ImportTarget>("tasks");
   const [mapping, setMapping] = useState<Record<string, number | null>>({});
@@ -61,8 +75,15 @@ export function Importer({ features, criteria, projectLabel }: { features: strin
     start(async () => {
       const res = await runImport(target, mapping, parsed.rows);
       if (res.error) setError(res.error);
+      else if (file) onImported?.({ target, created: res.created, file: file.name });
       setResult(res);
     });
+  }
+
+  function pick(f: File | undefined | null) {
+    if (!f) return;
+    setFile(f);
+    parse(f);
   }
 
   const titleKey = target === "projects" || target === "people" ? "name" : "title";
@@ -75,10 +96,13 @@ export function Importer({ features, criteria, projectLabel }: { features: strin
         <h2 className="mt-4 text-2xl font-semibold text-navy-950">Imported {result.created} {TARGETS.find((t) => t.key === target)?.label.toLowerCase()}</h2>
         {result.skipped ? <p className="mt-1 text-sm text-[var(--muted)]">{result.skipped} empty rows skipped.</p> : null}
         {result.extra ? <p className="mt-1 text-sm text-[var(--muted)]">{result.extra}</p> : null}
+        {embedded ? <p className="mt-1 text-sm text-[var(--muted)]">They&apos;ll be waiting in your workspace when you finish setup.</p> : null}
         <div className="mt-6 flex justify-center gap-3">
+          {embedded ? null : (
           <Link href={target === "tasks" ? "/app/my-work" : target === "backlog" ? "/app/portfolio" : target === "people" ? "/app/capacity" : "/app/projects"} className={buttonClass("primary")}>
             See them
           </Link>
+          )}
           <Button variant="secondary" onClick={() => { setResult(null); setParsed(null); setFile(null); }}>Import another file</Button>
         </div>
       </Card>
@@ -90,20 +114,35 @@ export function Importer({ features, criteria, projectLabel }: { features: strin
       <Card>
         <CardHeader title="1. Choose a file" subtitle="Excel (.xlsx, .xlsm), CSV, or an MS Planner export. Nothing is saved until you press Import." />
         <div className="p-5">
-          <label className={cn("flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-10 text-center transition-colors", file ? "border-brand-300 bg-brand-50/40" : "border-navy-200 hover:border-navy-400")}>
-            {pending && !parsed ? <Loader2 className="h-8 w-8 animate-spin text-brand-500" /> : file ? <FileSpreadsheet className="h-8 w-8 text-brand-500" /> : <Upload className="h-8 w-8 text-navy-300" />}
-            <span className="mt-3 font-medium text-navy-900">{file ? file.name : "Click to choose a file"}</span>
-            <span className="text-xs text-[var(--muted)]">Up to 9 MB and 5,000 rows</span>
+          <label
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragging(true);
+            }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setDragging(false);
+              pick(e.dataTransfer.files?.[0]);
+            }}
+            className={cn(
+              "flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-10 text-center transition-colors focus-within:ring-2 focus-within:ring-brand-500",
+              dragging ? "border-brand-500 bg-brand-50" : file ? "border-brand-300 bg-brand-50/40" : "border-navy-200 hover:border-brand-500 hover:bg-brand-50/30",
+            )}
+          >
+            {pending && !parsed ? <Loader2 className="h-8 w-8 animate-spin text-brand-600" /> : file ? <FileSpreadsheet className="h-8 w-8 text-brand-600" /> : <Upload className="h-8 w-8 text-navy-400" />}
+            <span className="mt-3 font-medium text-navy-900">{file ? file.name : "Drop your Excel or CSV file here"}</span>
+            <span className="mt-1 text-xs text-[var(--muted)]">{file ? "Choose another file to replace it" : "Up to 9 MB and 5,000 rows"}</span>
+            <span className={buttonClass(file ? "secondary" : "primary", "sm", "mt-4")}>
+              <Upload className="h-4 w-4" /> {file ? "Choose another file" : "Choose file"}
+            </span>
             <input
               type="file"
               accept=".xlsx,.xlsm,.csv,.txt"
               className="sr-only"
               onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) {
-                  setFile(f);
-                  parse(f);
-                }
+                pick(e.target.files?.[0]);
+                e.target.value = "";
               }}
             />
           </label>
@@ -148,7 +187,7 @@ export function Importer({ features, criteria, projectLabel }: { features: strin
                 return (
                   <div key={f.key} className="grid items-center gap-3 px-5 py-2.5 md:grid-cols-[220px_260px_1fr]">
                     <span className="text-sm font-medium text-navy-900">
-                      {f.label} {f.required ? <span className="text-brand-600">*</span> : null}
+                      {f.label} {f.required ? <span className="text-brand-700">*</span> : null}
                     </span>
                     <Select className="h-9" value={idx ?? ""} onChange={(e) => setMapping((m) => ({ ...m, [f.key]: e.target.value === "" ? null : Number(e.target.value) }))}>
                       <option value="">Don&apos;t import</option>

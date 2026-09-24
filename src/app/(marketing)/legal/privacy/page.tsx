@@ -9,7 +9,7 @@ export default function PrivacyPage() {
       <p className="text-sm text-[var(--muted)]">Last updated: 24 September 2026</p>
       <p>
         This policy explains how GorillaMEC (&ldquo;we&rdquo;), based in the Netherlands, handles personal data when you visit this website or use GorillaPM. Questions:
-        <a className="text-brand-600" href="mailto:info@gorillamec.com"> info@gorillamec.com</a>.
+        <a className="text-brand-700" href="mailto:info@gorillamec.com"> info@gorillamec.com</a>.
       </p>
       <h2>What we collect</h2>
       <ul>

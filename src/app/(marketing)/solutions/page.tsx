@@ -61,14 +61,14 @@ export default function SolutionsPage() {
         <Section key={s.id} id={s.id} className={i % 2 ? "bg-[var(--bg)]" : ""}>
           <div className="grid gap-10 lg:grid-cols-2">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-wider text-brand-500">{s.eyebrow}</p>
+              <p className="text-sm font-semibold uppercase tracking-wider text-brand-700">{s.eyebrow}</p>
               <h2 className="mt-2 text-3xl font-semibold text-navy-950">{s.title}</h2>
               <p className="mt-4 text-lg leading-relaxed text-[var(--muted)]">{s.body}</p>
             </div>
             <ul className="space-y-3 self-center rounded-2xl border border-[var(--border)] bg-white p-6">
               {s.points.map((p) => (
                 <li key={p} className="flex gap-3 text-navy-800">
-                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-brand-500" aria-hidden />
+                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-brand-600" aria-hidden />
                   {p}
                 </li>
               ))}

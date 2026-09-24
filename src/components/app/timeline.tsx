@@ -77,7 +77,7 @@ export function Timeline({ rows, maxWeeks = 30 }: { rows: TimelineRow[]; maxWeek
               const late = cat !== "done" && e < today.getTime();
               return (
                 <div key={r.id} className="grid grid-cols-[260px_1fr] border-b border-[var(--border)] last:border-0 hover:bg-navy-50/40">
-                  <Link href={r.href} scroll={false} className="truncate px-4 py-2 text-sm text-navy-900 hover:text-brand-700" title={r.title}>
+                  <Link href={r.href} scroll={false} className="truncate px-4 py-2 text-sm text-navy-900 hover:text-brand-800" title={r.title}>
                     {r.title}
                   </Link>
                   <div className="relative h-9">

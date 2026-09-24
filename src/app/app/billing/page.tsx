@@ -71,7 +71,7 @@ export default async function BillingPage({ searchParams }: PageProps<"/app/bill
                   <p className="mt-1 text-sm text-[var(--muted)]">{p.users}</p>
                   <ul className="mt-4 flex-1 space-y-2 text-sm text-navy-800">
                     {p.bullets.map((b) => (
-                      <li key={b} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" />{b}</li>
+                      <li key={b} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />{b}</li>
                     ))}
                   </ul>
                   {ws.isAdmin && configured ? (

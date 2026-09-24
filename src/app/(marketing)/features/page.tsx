@@ -88,7 +88,7 @@ export default function FeaturesPage() {
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {g.items.map((f) => (
               <div key={f.name} className="rounded-2xl border border-[var(--border)] bg-white p-6">
-                <f.icon className="h-6 w-6 text-brand-500" aria-hidden />
+                <f.icon className="h-6 w-6 text-brand-600" aria-hidden />
                 <h3 className="mt-4 font-semibold text-navy-950">{f.name}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{f.body}</p>
               </div>
