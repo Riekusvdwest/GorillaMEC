@@ -1,0 +1,23 @@
+name: Unpack uploaded source
+# One-time helper: when gorillapm-source.zip is uploaded through the GitHub
+# website, unzip it into the repository and remove the zip. Safe to delete.
+on:
+  push:
+    paths:
+      - "gorillapm-source.zip"
+permissions:
+  contents: write
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unzip and commit
+        run: |
+          unzip -o gorillapm-source.zip -d .
+          git rm -q gorillapm-source.zip
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Add GorillaPM source code"
+          git push
