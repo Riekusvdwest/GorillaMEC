@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-navy-50: #eef3f8;
+  --color-navy-100: #d6e1ec;
+  --color-navy-200: #aec3d8;
+  --color-navy-300: #7f9dbd;
+  --color-navy-400: #56789d;
+  --color-navy-500: #3b5d82;
+  --color-navy-600: #2a4a6b;
+  --color-navy-700: #1b3550;
+  --color-navy-800: #12263b;
+  --color-navy-900: #0b1b2b;
+  --color-navy-950: #07111d;
+
+  --color-brand-50: #fff4ec;
+  --color-brand-100: #ffe3cf;
+  --color-brand-200: #ffc49e;
+  --color-brand-300: #ff9f63;
+  --color-brand-400: #ff8a45;
+  --color-brand-500: #ff6a13;
+  --color-brand-600: #e85a06;
+  --color-brand-700: #c04808;
+  --color-brand-800: #973a0e;
+  --color-brand-900: #7a320f;
+}
+
+:root {
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --border: #e3e8ef;
+  --text: #0b1b2b;
+  --muted: #5b6b7f;
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Blueprint grid — a nod to MEP drawings */
+.blueprint {
+  background-color: var(--color-navy-950);
+  background-image:
+    linear-gradient(rgba(127, 157, 189, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127, 157, 189, 0.09) 1px, transparent 1px),
+    linear-gradient(rgba(127, 157, 189, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127, 157, 189, 0.045) 1px, transparent 1px);
+  background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+}
+
+.blueprint-light {
+  background-image:
+    linear-gradient(rgba(11, 27, 43, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 27, 43, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.glow {
+  box-shadow: 0 0 0 1px rgba(255, 106, 19, 0.35), 0 20px 60px -20px rgba(255, 106, 19, 0.45);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--color-brand-200);
+  color: var(--color-navy-950);
+}
+
+dialog::backdrop {
+  background: rgba(7, 17, 29, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
